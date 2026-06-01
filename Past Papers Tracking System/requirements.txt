@@ -1,2 +1,5 @@
 pywin32>=306
 pyinstaller>=6.0
+# SumatraPDF is downloaded separately during the GitHub Actions build
+# and bundled directly into rms_print_server.exe — no extra downloads
+# are required on the Windows PC.
