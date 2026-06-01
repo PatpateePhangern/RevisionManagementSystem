@@ -44,13 +44,28 @@ Configurable sounds for each alert type:
 
 ---
 
-## Getting Started
+## Download & Install
+
+### Easiest way — download the app directly
+
+1. Go to the [Releases page](../../releases/latest)
+2. Download **RMS-macOS.zip**
+3. Unzip it — you'll get **RMS.app**
+4. Drag **RMS.app** into your **Applications** folder
+
+> **First launch:** macOS will block the app because it is not signed by Apple.  
+> To open it: **right-click RMS.app → Open → Open** (you only need to do this once).  
+> After that it opens normally like any other app.
+
+---
+
+## Build from Source
 
 ### Requirements
-- macOS 14 (Sonnet) or later
-- Xcode 15 or later (to build from source)
+- macOS 14 or later
+- Xcode 15 or later
 
-### Building
+### Steps
 1. Clone this repository
 2. Open `Past Papers Tracking System.xcodeproj` in Xcode
 3. Select the **Past Papers Tracking System** scheme and your Mac as the destination

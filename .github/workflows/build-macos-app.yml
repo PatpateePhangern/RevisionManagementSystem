@@ -1,0 +1,55 @@
+name: Build RMS.app for macOS
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:   # allow manual trigger from the Actions tab
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select latest available Xcode
+        run: |
+          # List all available Xcode versions and select the newest
+          ls /Applications/ | grep Xcode
+          sudo xcode-select -s $(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          xcodebuild -version
+
+      - name: Build RMS.app (unsigned — no Apple Developer account needed)
+        run: |
+          xcodebuild \
+            -project "Past Papers Tracking System.xcodeproj" \
+            -scheme "Past Papers Tracking System" \
+            -configuration Release \
+            -derivedDataPath "${{ runner.temp }}/build" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package RMS.app as zip
+        run: |
+          APP_PATH="${{ runner.temp }}/build/Build/Products/Release/RMS.app"
+          echo "App path: $APP_PATH"
+          ls "$APP_PATH"
+          # ditto preserves macOS resource forks and metadata correctly
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "RMS-macOS.zip"
+          echo "Zip size: $(du -sh RMS-macOS.zip | cut -f1)"
+
+      - name: Upload zip as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RMS-macOS
+          path: RMS-macOS.zip
+          retention-days: 90
+
+      - name: Attach zip to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: RMS-macOS.zip
