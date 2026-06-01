@@ -22,6 +22,15 @@ jobs:
 
       - name: Build RMS.app (unsigned — no Apple Developer account needed)
         run: |
+          # Detect the highest SDK version available on this runner so we never
+          # set a deployment target higher than the SDK (which breaks actool).
+          SDK_VERSION=$(xcodebuild -showsdks 2>/dev/null \
+            | grep "macosx" \
+            | awk '{print $NF}' \
+            | sed 's/macosx//' \
+            | sort -V | tail -1)
+          echo "Using SDK version: $SDK_VERSION"
+
           xcodebuild \
             -project "Past Papers Tracking System.xcodeproj" \
             -scheme "Past Papers Tracking System" \
@@ -30,6 +39,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            MACOSX_DEPLOYMENT_TARGET="$SDK_VERSION" \
             build
 
       - name: Package RMS.app as zip
