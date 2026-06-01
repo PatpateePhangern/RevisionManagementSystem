@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="SubjectMO" representedClassName="SubjectMO" syncable="YES" codeGenerationType="none">
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="NO" attributeType="String"/>
+        <attribute name="examDate1" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="examDate2" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="examDate3" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="examDate4" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="papers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PaperMO" inverseName="subject" inverseEntity="PaperMO"/>
+    </entity>
+    <entity name="PaperMO" representedClassName="PaperMO" syncable="YES" codeGenerationType="none">
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="markSchemePDFPath" optional="YES" attributeType="String"/>
+        <attribute name="normalizedSeries" optional="NO" attributeType="String"/>
+        <attribute name="questionPaperPDFPath" optional="YES" attributeType="String"/>
+        <attribute name="rawSeriesName" optional="NO" attributeType="String"/>
+        <attribute name="subjectID" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="attempts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AttemptMO" inverseName="paper" inverseEntity="AttemptMO"/>
+        <relationship name="gradeThresholds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GradeThresholdTableMO" inverseName="paper" inverseEntity="GradeThresholdTableMO"/>
+        <relationship name="questionStructures" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="QuestionStructureMO" inverseName="paper" inverseEntity="QuestionStructureMO"/>
+        <relationship name="subject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SubjectMO" inverseName="papers" inverseEntity="SubjectMO"/>
+    </entity>
+    <entity name="AttemptMO" representedClassName="AttemptMO" syncable="YES" codeGenerationType="none">
+        <attribute name="additionalNotes" optional="YES" attributeType="String"/>
+        <attribute name="additionalNotesImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="attemptNumber" optional="NO" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="barcodeValue" optional="NO" attributeType="String"/>
+        <attribute name="completedTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="difficultQuestionsImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="durationInSeconds" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="paperID" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="paperType" optional="YES" attributeType="String"/>
+        <attribute name="printTimestamp" optional="NO" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="manualStatus" optional="YES" attributeType="String"/>
+        <attribute name="rawGrade" optional="YES" attributeType="String"/>
+        <attribute name="reviewQuestions" optional="YES" attributeType="String"/>
+        <attribute name="scannedFilePath" optional="YES" attributeType="String"/>
+        <attribute name="totalScore" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eventLogs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ETSEventLogMO" inverseName="attempt" inverseEntity="ETSEventLogMO"/>
+        <relationship name="paper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaperMO" inverseName="attempts" inverseEntity="PaperMO"/>
+    </entity>
+    <entity name="GradeThresholdTableMO" representedClassName="GradeThresholdTableMO" syncable="YES" codeGenerationType="none">
+        <attribute name="hasAStar" optional="NO" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="markA" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markAStar" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markB" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markC" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markD" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markE" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="maxPossibleMarks" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rawSeriesKey" optional="NO" attributeType="String"/>
+        <relationship name="paper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaperMO" inverseName="gradeThresholds" inverseEntity="PaperMO"/>
+    </entity>
+    <entity name="QuestionStructureMO" representedClassName="QuestionStructureMO" syncable="YES" codeGenerationType="none">
+        <attribute name="displayOrder" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="maxMarks" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="paperID" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="questionLabel" optional="NO" attributeType="String"/>
+        <attribute name="source" optional="YES" attributeType="String" defaultValueString="questionPaper"/>
+        <relationship name="paper" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PaperMO" inverseName="questionStructures" inverseEntity="PaperMO"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="paperID"/>
+                <constraint value="questionLabel"/>
+                <constraint value="source"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="ETSEventLogMO" representedClassName="ETSEventLogMO" syncable="YES" codeGenerationType="none">
+        <attribute name="durationSeconds" optional="NO" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="eventType" optional="NO" attributeType="String"/>
+        <attribute name="id" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="label" optional="NO" attributeType="String"/>
+        <attribute name="marksEarned" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sequenceIndex" optional="NO" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="attempt" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AttemptMO" inverseName="eventLogs" inverseEntity="AttemptMO"/>
+    </entity>
+    <entity name="DifficultQuestionsArchiveMO" representedClassName="DifficultQuestionsArchiveMO" syncable="YES" codeGenerationType="none">
+        <attribute name="dqaID" optional="NO" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="originalBarcode" optional="NO" attributeType="String"/>
+        <attribute name="dqaBarcode" optional="NO" attributeType="String"/>
+        <attribute name="subject" optional="NO" attributeType="String"/>
+        <attribute name="examSeries" optional="NO" attributeType="String"/>
+        <attribute name="paperType" optional="YES" attributeType="String"/>
+        <attribute name="parentExamAttemptNumber" optional="NO" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="dqaAttemptNumber" optional="NO" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="committedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isOutdated" optional="NO" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="sourceQuestionLabels" optional="YES" attributeType="Binary"/>
+        <attribute name="compiledQuestionPDFPath" optional="YES" attributeType="String"/>
+        <attribute name="compiledMarkSchemePDFPath" optional="YES" attributeType="String"/>
+        <attribute name="completedDQAFilePath" optional="YES" attributeType="String"/>
+        <attribute name="createdTimestamp" optional="NO" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="originalCompletedTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dqaCompletedTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <elements>
+        <element name="SubjectMO" positionX="-63" positionY="-18" width="128" height="58"/>
+        <element name="PaperMO" positionX="160" positionY="-18" width="128" height="178"/>
+        <element name="AttemptMO" positionX="400" positionY="-18" width="128" height="378"/>
+        <element name="GradeThresholdTableMO" positionX="620" positionY="-18" width="128" height="208"/>
+        <element name="QuestionStructureMO" positionX="160" positionY="240" width="128" height="128"/>
+        <element name="ETSEventLogMO" positionX="400" positionY="380" width="128" height="148"/>
+        <element name="DifficultQuestionsArchiveMO" positionX="640" positionY="280" width="128" height="358"/>
+    </elements>
+</model>

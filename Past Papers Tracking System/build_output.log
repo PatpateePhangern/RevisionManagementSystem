@@ -1,0 +1,6 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild clean build
+
+2026-05-25 14:09:54.194 xcodebuild[33772:1258309] Writing error result bundle to /var/folders/zj/n36kmzzd6kv7023gxx2v65ww0000gn/T/ResultBundle_2569-25-05_14-09-0054.xcresult
+xcodebuild: error: The directory /Users/patpateephangern/Documents/Exam Timing System/Exam Timing System/Past Papers Tracking System does not contain an Xcode project.
+

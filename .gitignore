@@ -1,0 +1,57 @@
+# ── macOS system files ────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+
+# ── Xcode build output ────────────────────────────────────────────────────────
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcshareddata/xcdebugger/
+*.xcodeproj/xcshareddata/xcbaselines/
+*.xcuserstate
+*.moved-aside
+
+# ── Compiled Swift / C artefacts ──────────────────────────────────────────────
+*.o
+*.d
+*.dia
+*.swp
+
+# ── CocoaPods / SPM ───────────────────────────────────────────────────────────
+Pods/
+.build/
+Package.resolved
+
+# ── User Core Data stores (runtime data — not source code) ───────────────────
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# ── macOS app containers (user data) ─────────────────────────────────────────
+~/Library/Containers/
+
+# ── Python build output ───────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+dist/
+*.spec
+build/
+
+# ── Signing / provisioning ────────────────────────────────────────────────────
+*.mobileprovision
+*.p12
+*.cer
+ExportOptions.plist
+
+# ── Temporary / backup files ──────────────────────────────────────────────────
+*.tmp
+*.bak
+*.orig
+*~
