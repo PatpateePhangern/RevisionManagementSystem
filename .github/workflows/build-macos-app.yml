@@ -31,6 +31,15 @@ jobs:
             | sort -V | tail -1)
           echo "Using SDK version: $SDK_VERSION"
 
+          # RMS.icon is an Xcode icon design source file — actool crashes trying
+          # to process it on the CI runner. The Assets.xcassets already contains
+          # all pre-rendered PNG icons, so we hide the .icon dir for this build.
+          ICON_DIR="Past Papers Tracking System/RMS.icon"
+          if [ -d "$ICON_DIR" ]; then
+            mv "$ICON_DIR" "${ICON_DIR}.disabled"
+            echo "Hid $ICON_DIR from actool"
+          fi
+
           xcodebuild \
             -project "Past Papers Tracking System.xcodeproj" \
             -scheme "Past Papers Tracking System" \
@@ -41,6 +50,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             MACOSX_DEPLOYMENT_TARGET="$SDK_VERSION" \
             build
+          BUILD_EXIT=$?
+
+          # Restore the icon dir regardless of whether the build succeeded
+          if [ -d "${ICON_DIR}.disabled" ]; then
+            mv "${ICON_DIR}.disabled" "$ICON_DIR"
+          fi
+
+          exit $BUILD_EXIT
 
       - name: Package RMS.app as zip
         run: |
